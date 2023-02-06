@@ -21,4 +21,24 @@ export class UserRepository {
 
         return matchUser !== undefined;
     }
+
+
+    async update(id: string, updateRequest: Partial<UserEntity>){
+        const user = this.users.find(
+            userSaved  => userSaved.id === id
+        )
+
+        if(!user){
+            throw new Error("User not found");
+        }
+
+        Object.entries(updateRequest).forEach( ([key,value])=> {
+            if(key === 'id'){
+                return
+            }
+            user[key] = value
+        } );
+
+        return user
+    }
 }
